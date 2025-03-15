@@ -1,1 +1,1 @@
-from .parts import Board  # noqa
+# from .parts import Board  # noqa

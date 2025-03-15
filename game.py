@@ -1,44 +1,64 @@
-from gameparts import Board
-from gameparts.exceptions import FieldIndexError
+from gameparts.parts import Board
+from gameparts.exceptions import CellOccupiedError, FieldIndexError
 
 
 def main():
     game = Board()
+    current_player = 'X'
+    running = True
     game.display()  # Отрисовать поле в терминале.
 
-    while True:
-        try:
-            row = int(input('Введите номер строки: '))
-            if row < 0 or row >= game.field_size:
-                raise FieldIndexError
+    while running:
+        print(f'Ход делают {current_player}')
 
-            column = int(input('Введите номер столбца: '))
-            if column < 0 or column >= game.field_size:
-                raise FieldIndexError
-        except FieldIndexError:
-            print(
-                'Значение должно быть неотрицательным и меньше '
-                f'{game.field_size}.'
-                )
-            print(
-                'Пожалуйста, введите значения для строки и столбца заново.'
-                )
-            continue
-        except ValueError:
-            print(
-                f'Буквы вводить нельзя. Только числа.'
-                f'Пожалуйста, введите значения для строки и столбца заново.'
-                )
-            continue
-        except Exception as e:
-            print(f'Возникла ошибка: {e}')
-            continue
-        else:
-            break
+        while True:
+            try:
+                row = int(input('Введите номер строки: '))
+                if row < 0 or row >= game.field_size:
+                    raise FieldIndexError
 
-    game.make_move(row, column, 'X')
-    print('Ход сделан!')
-    game.display()
+                column = int(input('Введите номер столбца: '))
+                if column < 0 or column >= game.field_size:
+                    raise FieldIndexError
+
+                if game.board[row][column] != ' ':
+                    raise CellOccupiedError
+
+            except FieldIndexError:
+                print(
+                    'Значение должно быть неотрицательным и меньше '
+                    f'{game.field_size}.'
+                )
+                print(
+                    'Пожалуйста, введите значения для строки и столбца заново.'
+                )
+                continue
+            except CellOccupiedError:
+                print('Ячейка занята')
+                print('Введите другие координаты')
+                continue
+            except ValueError:
+                print('Буквы вводить нельзя. Только числа.')
+                print(
+                    'Пожалуйста, введите значения для строки и столбца заново.'
+                )
+                continue
+            except Exception as e:
+                print(f'Возникла ошибка: {e}')
+                continue
+            else:
+                break
+
+        game.make_move(row, column, current_player)
+        game.display()
+        if game.check_win(current_player):
+            print(f'Победили {current_player}.')
+            running = False
+        elif game.is_board_full():
+            print('Ничья!')
+            running = False
+
+        current_player = 'O' if current_player == 'X' else 'X'
 
 
 if __name__ == '__main__':
