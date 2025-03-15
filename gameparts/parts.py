@@ -21,7 +21,7 @@ class Board:
             print('-' * 5)
 
     def is_board_full(self):
-        """Метод, который проверяет игровое поле на наличие свободных ячеек"""
+        """Метод, который проверяет игровое поле на наличие свободных ячеек."""
         for row in range(self.field_size):
             for column in range(self.field_size):
                 if self.board[row][column] == ' ':
@@ -29,7 +29,7 @@ class Board:
         return True
 
     def check_win(self, player):
-        """Метод, который проверяет наличие победной комбинации"""
+        """Метод, который проверяет наличие победной комбинации."""
         for row in range(self.field_size):
             if (all(
                     [self.board[row][column] == player
