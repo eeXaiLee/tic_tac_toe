@@ -22,22 +22,22 @@ class Board:
 
     def is_board_full(self):
         """Метод, который проверяет игровое поле на наличие свободных ячеек"""
-        for i in range(self.field_size):
-            for j in range(self.field_size):
-                if self.board[i][j] == ' ':
+        for row in range(self.field_size):
+            for column in range(self.field_size):
+                if self.board[row][column] == ' ':
                     return False
         return True
 
     def check_win(self, player):
         """Метод, который проверяет наличие победной комбинации"""
-        for i in range(self.field_size):
+        for row in range(self.field_size):
             if (all(
-                    [self.board[i][j] == player
-                        for j in range(self.field_size)]
+                    [self.board[row][column] == player
+                        for column in range(self.field_size)]
                 ) or
                 all(
-                    [self.board[j][i] == player
-                        for j in range(self.field_size)]
+                    [self.board[column][row] == player
+                        for column in range(self.field_size)]
                     )):
                 return True
 
