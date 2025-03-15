@@ -13,11 +13,15 @@ def main():
 
         while True:
             try:
-                row = int(input('Введите номер строки: '))
+                row = int(
+                    input(f'Введите номер строки от 1 до {game.field_size}: ')
+                    ) - 1
                 if row < 0 or row >= game.field_size:
                     raise FieldIndexError
 
-                column = int(input('Введите номер столбца: '))
+                column = int(
+                    input(f'Введите номер столбца от 1 до {game.field_size}: ')
+                    ) - 1
                 if column < 0 or column >= game.field_size:
                     raise FieldIndexError
 
